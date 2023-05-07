@@ -1,0 +1,43 @@
+html {
+    font-size: 14px;
+    position: relative;
+    min-height: 100%;
+}
+
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+body {
+    margin-bottom: 60px;
+    font-family: sans-serif;
+    display: flex;
+    background: #222831;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    color: white;
+}
+.table {
+    background: #fff;
+    max-height: 470px;
+    overflow-y: auto;
+    border-radius: 10px;
+    padding: 2rem;
+}
+
+.table {
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+
+    

@@ -1,0 +1,53 @@
+﻿@model ToDoList
+@{
+    ViewBag.Title = "Get List by Id";
+}
+
+<h2>Get List by Id <a asp-action="Index" class="btn btn-sm btn-primary">Back</a></h2>
+<h3>@ViewBag.StatusCode</h3>
+<form method="post">
+    <div class="form-group">
+        <label for="id">Id:</label>
+        <input type="number" class="form-control" name="id" />
+    </div>
+    <br/>
+    <div class="text-center panel-body">
+        <button type="submit" class="btn btn-sm btn-primary">Get List</button>
+    </div>
+</form>
+
+@if (Model != null)
+{
+    <table class="table table-sm table-striped table-bordered m-2">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>DueDate</th>
+                <th>IsCompleted</th>
+                <th>Update</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.Id</td>
+                <td>@Model.Title</td>
+                <td>@Model.Description</td>
+                <td>@Model.DueDate</td>
+                <td>@Model.IsCompleted</td>
+                <td>
+                    <a asp-action="UpdateList" asp-route-id="@Model.Id">
+                        <img src="~/icon/updateicon.png" />
+                    </a>
+                </td>
+                <td>
+                    <a asp-action="DeleteList" asp-route-id="@Model.Id">
+                        <img src="~/icon/deleteicon.png" />
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+}

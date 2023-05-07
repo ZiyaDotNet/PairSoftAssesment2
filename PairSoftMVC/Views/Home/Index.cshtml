@@ -1,0 +1,49 @@
+﻿@model IEnumerable<ToDoList>
+
+@{
+    ViewData["Title"] = "List";
+}
+
+<h2>Summary</h2>
+<a asp-action="InsertList" class="btn btn-md btn-primary">AddList</a>
+<a asp-action="GetListByID" class="btn btn-md btn-secondary">GetById </a>
+<div class="table">
+    <table id="myTable" class="table  table-bordered table-hover table-sm ">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Titile</th>
+                <th>Description</th>
+                <th>DueDate</th>
+                <th>IsCompleted</th>
+                <th>Update</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var r in Model)
+            {
+                <tr>
+                    <td>@r.Id</td>
+                    <td>@r.Title</td>
+                    <td>@r.Description</td>
+                    <td>@r.DueDate</td>
+                    <td>@r.IsCompleted</td>
+                    <td>
+                        <a asp-action="UpdateList" asp-route-id="@r.Id">
+                            <img src="~/icon/updateicon.png" />
+                        </a>
+                    </td>
+                    <td>
+                        <a asp-action="DeleteList" asp-route-id="@r.Id">
+                            <img src="~/icon/deleteicon.png" />
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+</div>
+@*table table-sm table-striped table-bordered m-2*@

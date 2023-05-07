@@ -1,0 +1,69 @@
+﻿@model ToDoList
+@{
+    ViewBag.Title = "Add List";
+}
+
+<a asp-action="Index" class="btn btn-sm btn-secondary">Back</a>
+<form asp-action="InsertList" method="post">
+    <div class="form-group">
+        <label for="Title">Title:</label>
+        <input class="form-control" name="Title" />
+    </div>
+    <div class="form-group">
+        <label for="Description">Description:</label>
+        <input class="form-control" name="Description" />
+    </div>
+    <div class="form-group">
+        <label for="DueDate">DueDate:</label>
+        <input type="date" class="form-control" name="DueDate" />
+    </div>
+    <br />
+    <div class="form-group">
+        <label asp-for="IsCompleted">IsCompleted:</label>
+        <select asp-for="IsCompleted" class="form-control">
+            <option value="true">true</option>
+            <option value="false">false</option>
+        </select>
+    </div>
+    <br/>
+    <div class="text-center panel-body">
+        <button type="submit" class="btn btn-sm btn-primary">Add</button>
+    </div>
+</form>
+
+@if (Model != null)
+{
+    <h2>List</h2>
+    <table class="table table-sm table-striped table-bordered m-2">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>DueDate</th>
+                <th>IsCompleted</th>
+                <th>Update</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.Id</td>
+                <td>@Model.Title</td>
+                <td>@Model.Description</td>
+                <td>@Model.DueDate</td>
+                <td>@Model.IsCompleted</td>
+                <td>
+                    <a asp-action="UpdateList" asp-route-id="@Model.Id">
+                        <img src="~/icon/updateicon.png" />
+                    </a>
+                </td>
+                <td>
+                    <a asp-action="DeleteList" asp-route-id="@Model.Id">
+                        <img src="~/icon/deleteicon.png" />
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+}

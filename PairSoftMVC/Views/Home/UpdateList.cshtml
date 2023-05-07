@@ -1,0 +1,76 @@
+﻿@model ToDoList
+@{
+    ViewBag.Title = "Update a List";
+} 
+
+<h2>Update a List</h2>
+<a asp-action="Index" class="btn btn-sm btn-primary"> Back </a>
+
+<form method="post">
+    <div class="form-group">
+        <label asp-for="Id"></label>
+        <input class="form-control" asp-for="Id" readonly />
+    </div>
+    <div class="form-group">
+        <label asp-for="Title"></label>
+        <input class="form-control" asp-for="Title" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Description"></label>
+        <input class="form-control" asp-for="Description" />
+    </div>
+    <div class="form-group">
+        <label asp-for="DueDate"></label>
+        <input class="form-control" asp-for="DueDate" />
+    </div>
+    <br />
+    <div class="form-group">
+        <label asp-for="IsCompleted"></label>
+@*        <input class="form-control" asp-for="IsCompleted" />*@
+        <select asp-for="IsCompleted" class="form-control">
+            <option value="true">true</option>
+            <option value="false">false</option>
+        </select>
+    </div>
+    <br/>
+    <div class="text-center panel-body">
+        <button type="submit" class="btn btn-sm btn-primary">Update</button>
+    </div>
+</form>
+
+@if (ViewBag.Result == "Success")
+{
+    <h2>Reservation</h2>
+    <table class="table table-sm table-striped table-bordered m-2">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Titile</th>
+                <th>Description</th>
+                <th>DueDate</th>
+                <th>IsCompleted</th>
+                <th>Update</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.Id</td>
+                <td>@Model.Title</td>
+                <td>@Model.Description</td>
+                <td>@Model.DueDate</td>
+                <td>@Model.IsCompleted</td>
+                <td>
+                    <a asp-action="UpdateList" asp-route-id="@Model.Id">
+                        <img src="~/icon/updateicon.png" />
+                    </a>
+                </td>
+                <td>
+                    <a asp-action="DeleteList" asp-route-id="@Model.Id">
+                        <img src="~/icon/deleteicon.png" />
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+}
