@@ -1,35 +1,31 @@
 ﻿@model IEnumerable<ToDoList>
-
 @{
     ViewData["Title"] = "List";
 }
-<h3>@ViewBag.StatusCode</h3>
+
 <form asp-action="Search" method="post">
     <div class="dInput" v-if="activeStage == 3">
         <div>
             <label for="Title">Title:</label>
-            <input name="Title">
+            <input  name="Title">
         </div>
         <div>
             <label for="Description">Description:</label>
-            <input name="Description">
+            <input type="date" name="Description">
         </div>
         <div>
             <label for="DueDate">DueDate:</label>
-            <input type="date" name="DueDate">
+            <input type="date"  for="DueDate">
         </div>
         <div class="text-center panel-body">
             <button type="submit" class="btn btn-sm btn-primary">Search</button>
         </div>
 
     </div>
-    
+
 </form>
 <h2>Summary</h2>
-<a asp-action="InsertList" class="btn btn-md btn-primary">AddList</a> 
-<a asp-action="GetListByID" class="btn btn-md btn-secondary">GetById </a>
-<a asp-action="GetRecord" class="btn btn-md btn-secondary">List</a>
-
+<a asp-action="Index" class="btn btn-md btn-secondary">Back</a>
 <div class="table">
     <table id="myTable" class="table  table-bordered table-hover table-sm ">
         <thead>
@@ -92,12 +88,12 @@
 
         .dInput input {
             padding: 5px;
-            margin:0px;
+            margin: 0px;
             margin-left: 5px;
             background-color: white;
             border-radius: 4px;
-            float:left;
-            width:400px;
+            float: left;
+            width: 400px;
         }
 
         .dInput button {

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PairSoftAPI.Models;
 using PairSoftAPI.ServiceRepository;
 
-namespace PairSoftAPI.Migrations
+namespace PairSoftAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -13,6 +13,25 @@ namespace PairSoftAPI.Migrations
         public ToDoController(IToDoListRepository services)
         {
             _services = services;
+        }
+        [HttpPost("SearchList")]
+        public async Task<ActionResult> SearchList(SearchList search)
+        {
+            try
+            {
+                
+                var result = await _services.SearchList(search);
+
+                if (result == null)
+                    return NotFound();
+
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "Error retrieving data from the database");
+            }
         }
         [HttpGet("GetToDoList")]
         public async Task<ActionResult> GetToDoList()
@@ -101,6 +120,27 @@ namespace PairSoftAPI.Migrations
             {
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     "Error updating data");
+            }
+        }
+        [HttpGet("UpdateStatus")]
+        public async Task<ActionResult> UpdateStatus(int id)
+        {
+            try
+            {
+                if (id <= 0)
+                    return BadRequest("List ID mismatch");
+
+                var ListToUpdate = await _services.UpdateStatus(id);
+
+                if (ListToUpdate == null)
+                    return NotFound();
+
+                return Ok(ListToUpdate);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "Error updating status");
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using PairSoftAPI.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using PairSoftAPI.Models;
 
 namespace PairSoftAPI.ServiceRepository
 {
@@ -9,5 +10,7 @@ namespace PairSoftAPI.ServiceRepository
         Task<ToDoList> UpdateList(ToDoList toDoList);
         Task<ToDoList> InsertList(ToDoList toDoList);
         Task<ToDoList> FindById(int id);
+        Task<ToDoList> UpdateStatus(int id);
+        Task<List<ToDoList>> SearchList(SearchList search);
     }
 }

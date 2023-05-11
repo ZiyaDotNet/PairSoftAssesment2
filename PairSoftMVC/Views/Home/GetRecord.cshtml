@@ -1,0 +1,48 @@
+﻿@model IEnumerable<ToDoList>
+@{
+	ViewData["Title"] = "Display Data";
+	string[] TableHeaders = new string[] {"TitleID"
+						,"Title"
+						,"Description"
+						,"DueDate"
+						,"IsCompleted"
+						};
+}
+<a asp-action="Index" class="btn btn-md btn-primary">Back</a>
+
+<div class="table">
+	<table class="table table-bordered table-hover">
+		<thead>
+			<tr>
+				@{
+					foreach (var head in TableHeaders)
+					{
+						<th>
+							@head
+						</th>
+					}
+				}
+			</tr>
+		</thead>
+
+		<tbody>
+			@{
+				if (Model != null)
+				{
+					foreach (var Data in Model)
+					{
+						<tr>
+							<td>@Data.Id</td>
+							<td>@Data.Title</td>
+							<td>@Data.Description</td>
+							<td>@Data.DueDate</td>
+							<td>@Data.IsCompleted</td>
+						</tr>
+					}
+				}
+			}
+		</tbody>
+	</table>
+</div>
+
+﻿

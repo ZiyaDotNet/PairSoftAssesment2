@@ -14,8 +14,8 @@
         <input class="form-control" name="Description" />
     </div>
     <div class="form-group">
-        <label for="DueDate">DueDate:</label>
-        <input type="date" class="form-control" name="DueDate" />
+        <label asp-for="DueDate">DueDate:</label>
+        <input type="datetime-local" class="form-control" name="DueDate" asp-for="DueDate" />
     </div>
     <br />
     <div class="form-group">

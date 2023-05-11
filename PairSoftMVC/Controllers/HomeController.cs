@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using PairSoftMVC.Models;
+using PairSoftMVC.Models.ViewModel;
 using System.Diagnostics;
 using System.Text;
 
@@ -35,6 +36,28 @@ namespace PairSoftMVC.Controllers
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     lst = JsonConvert.DeserializeObject<List<ToDoList>>(apiResponse);
+                }
+            }
+            return View(lst);
+        }
+        public  ViewResult Search()=>View();
+        [HttpPost]
+        public async Task<IActionResult> Search(SearchList search)
+        {
+            List<ToDoList> lst = new List<ToDoList>();
+            using (var httpClient = new HttpClient())
+            {
+                StringContent content = new StringContent(JsonConvert.SerializeObject(search), Encoding.UTF8, "application/json");
+
+                using (var response = await httpClient.PostAsync("https://localhost:7027/api/ToDo/SearchList", content))
+                {
+                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        lst = JsonConvert.DeserializeObject<List<ToDoList>>(apiResponse);
+                    }
+                    else
+                        ViewBag.StatusCode = response.StatusCode;
                 }
             }
             return View(lst);
@@ -132,21 +155,35 @@ namespace PairSoftMVC.Controllers
         }
         public ViewResult AddRecord() => View();
 
-        [HttpPost]
-        public async Task<IActionResult> AddRecord(ToDoList toDoList)
+        [HttpGet]
+        public async Task<IActionResult> GetRecord()
         {
-            ToDoList receivedlst = new ToDoList();
+			List<ToDoList> lst = new List<ToDoList>();
+			using (var httpClient = new HttpClient())
+			{
+				using (var response = await httpClient.GetAsync("https://localhost:7027/api/ToDo/GetToDoList"))
+				{
+					string apiResponse = await response.Content.ReadAsStringAsync();
+					lst = JsonConvert.DeserializeObject<List<ToDoList>>(apiResponse);
+				}
+			}
+			return View(lst);
+		}
+
+        [HttpGet] 
+        public async Task<IActionResult> UpdateStatus(int id)
+        {
+            ToDoList lst = new ToDoList();
             using (var httpClient = new HttpClient())
             {
-                StringContent content = new StringContent(JsonConvert.SerializeObject(toDoList), Encoding.UTF8, "application/json");
-
-                using (var response = await httpClient.PostAsync("https://localhost:7027/api/ToDo/InsertList", content))
+                using (var response = await httpClient.GetAsync("https://localhost:7027/api/ToDo/UpdateStatus" + "?" + "id=" + id))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
-                    receivedlst = JsonConvert.DeserializeObject<ToDoList>(apiResponse);
+                    lst = JsonConvert.DeserializeObject<ToDoList>(apiResponse);
                 }
             }
-            return View(receivedlst);
+            return RedirectToAction("Index");
         }
+       
     }
 }

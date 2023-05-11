@@ -13,8 +13,7 @@ namespace PairSoftAPI.Models
         public string? Title { get; set; }
         [StringLength(100)]
         public string? Description { get; set; }
-        [DataType(DataType.DateTime)]
-        public string? DueDate { get; set; }
+        public DateTime DueDate { get; set; }
         [Required]
         public bool IsCompleted { get; set; }
     }

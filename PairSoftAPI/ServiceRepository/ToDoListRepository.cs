@@ -1,5 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using PairSoftAPI.Models;
+using System.Collections.Generic;
 
 namespace PairSoftAPI.ServiceRepository
 {
@@ -25,7 +28,7 @@ namespace PairSoftAPI.ServiceRepository
             }
         }
 
-        public async Task<ToDoList> DeleteList(int id)
+        public async Task<ToDoList?> DeleteList(int id)
         {
             try
             {
@@ -107,5 +110,92 @@ namespace PairSoftAPI.ServiceRepository
             }
 
         }
+
+        public async Task<ToDoList> UpdateStatus(int id)
+        {
+            try
+            {
+                var existentity = await _DbContext.ToDoLists.FindAsync(id);
+                if (existentity != null)
+                {
+                    existentity.IsCompleted = true;
+                    int status = await _DbContext.SaveChangesAsync();
+                    if (status == 1)
+                        return existentity;
+
+                    return null;
+
+                }
+                return null; ;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<List<ToDoList>> SearchList(SearchList search)
+        {
+
+            if(search!=null)
+            {
+                if(search.Title!=null && search.Description == null&& search.DueDate == null)
+                {
+                    var query = await _DbContext.ToDoLists.Where(lst => lst.Title.Contains(search.Title)).ToListAsync();
+                    if (query.Count() > 0)
+                        return query;
+                    return null;
+                }
+                else if(search.Title == null && search.Description != null && search.DueDate == null)
+                {
+                    var query = await _DbContext.ToDoLists.Where(lst => lst.Description.Contains(search.Description)).ToListAsync();
+                    if (query.Count() > 0)
+                        return query;
+                    return null;
+                }
+                else if (search.Title == null && search.Description == null && search.DueDate != null)
+                {
+                    //var query = await _DbContext.ToDoLists.Where(lst => lst.DueDate.Date.Equals(search.DueDate)).ToListAsync();
+                    var query = await _DbContext.ToDoLists.Where(lst => lst.DueDate.Date.Equals(search.DueDate)).ToListAsync();
+
+                    if (query.Count() > 0)
+                        return query;
+                    return null;
+                }
+                else if (search.Title != null && search.Description == null && search.DueDate != null)
+                {
+                    var query = await _DbContext.ToDoLists.Where(lst => lst.Title.Contains(search.Title) || lst.DueDate.Date.Equals(search.DueDate)).ToListAsync();
+                    if (query.Count() > 0)
+                        return query;
+                    return null;
+                }
+                else if (search.Title != null && search.Description != null && search.DueDate == null)
+                {
+                    var query = await _DbContext.ToDoLists.Where(lst => lst.Title.Contains(search.Title) || lst.Description.Contains(search.Description)).ToListAsync();
+                    if (query.Count() > 0)
+                        return query;
+                    return null;
+                }
+                else if (search.Title == null && search.Description != null && search.DueDate != null)
+                {
+                    var query = await _DbContext.ToDoLists.Where(lst => lst.DueDate.Date.Equals(search.DueDate) || lst.Description.Contains(search.Description)).ToListAsync();
+                    if (query.Count() > 0)
+                        return query;
+                    return null;
+                }
+                else
+                {
+                    var query = await _DbContext.ToDoLists.Where(lst => lst.Title.Contains(search.Title) || lst.Description.Contains(search.Description) || lst.DueDate.Date. Equals(search.DueDate)).ToListAsync();
+                    if (query.Count() > 0)
+                        return query;
+                    return null;
+                }
+            }
+            
+            return null;
+
+        }
     }
+    
 }

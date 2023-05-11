@@ -1,14 +1,9 @@
 ﻿using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using PairSoftAPI.Migrations;
+using PairSoftAPI.Controllers;
 using PairSoftAPI.Models;
 using PairSoftAPI.ServiceRepository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Service.Test
 {
@@ -89,7 +84,7 @@ namespace Service.Test
         {
             //Arrange
             var controller = new ToDoController(repository);
-            var list = new ToDoList() { Title = "Test Title 3", Description = "Test Description 3", Id = 111, DueDate = Convert.ToString(DateTime.Now.Date), IsCompleted = true };
+            var list = new ToDoList() { Title = "Test Title 3", Description = "Test Description 3", Id = 111, DueDate = DateTime.Now.Date, IsCompleted = true };
 
             //Act
             var data = await controller.InsertList(list);
@@ -152,7 +147,7 @@ namespace Service.Test
             lst.Title = "Test Title More Than 20 Characteres";
             lst.Description = "Description test";
             lst.Id = Id;
-            lst.DueDate = Convert.ToString(DateTime.Now);
+            lst.DueDate = DateTime.Now;
             lst.IsCompleted = true;
 
             var data = await controller.UpdateList(lst);
